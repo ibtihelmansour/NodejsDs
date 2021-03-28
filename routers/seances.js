@@ -16,6 +16,32 @@ router.get('/' , async (req , res)=> {
     res.send(await Seance.find())
 
 }) ; 
+router.get('/:id', async (req,res)=>{
+    Seance.findOne({_id: req.params.id})
+    .then(seance=> res.status(200).json(seance))
+    .catch(error=> res.status(400).json({error})) ;  
+    
+
+});
+
+router.put('/:id', async (req,res)=>{
+ 
+    let seance =await Seance.updateOne({_id:req.params.id} , { ...req.body})
+    if(!seance)
+        return res.status(404).send('Id is not found')
+    seance = await Seance.findById(req.params.id);
+    res.send(film) ; 
+}) ;
+
+router.delete('/:id', async (req,res)=>{
+    let seance =await Seance.findById(req.params.id);
+    if(!seance)
+        return res.status(404).send('Id is not found')
+    await Seance.deleteOne({_id:req.params.id})
+    res.send(seance);
+});
+
+
 
 
 router.post('/:id/reservation/:nbplaces',async (req,res)=>{
@@ -35,4 +61,5 @@ router.post('/:id/reservation/:nbplaces',async (req,res)=>{
    seance = await seance.save();
    res.send(seance);
 }) ; 
+
 module.exports= router  ; 

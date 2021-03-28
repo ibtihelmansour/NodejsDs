@@ -22,7 +22,8 @@ if(validation.error )
  let film = new Film ({ 
      ...req.body
  }) ; 
- film = film.save() 
+ film = film.save()
+            
  .then(film => res.status(201).send(film) )  
  .catch(error => res.status(400).json({error}))  ; 
 }) ; 
